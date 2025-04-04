@@ -48,7 +48,7 @@ Following table defines operators in our expressions. Operator Signature is defi
 | concatenation of strings | `.` | ![concatenation of strings](signatures/concatenation%20of%20strings.svg)
 | relational operators | `<, >` | ![relational operators](signatures/relational%20operators.svg)
 | comparison | `==, !=` | ![relational operators](signatures/comparison.svg)
-| logic and, or | `&&,` | ![logic and, or](signatures/logic%20and,%20or.svg)
+| logic and, or | `&&` | ![logic and, or](signatures/logic%20and,%20or.svg)
 | logic not | `!` | ![logic not](signatures/logic%20not.svg)
 | assignment | `=` | ![assignment](signatures/assignment.svg)
 
