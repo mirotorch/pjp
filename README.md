@@ -1,4 +1,4 @@
-This is the semestral project of PLC (Programming languages and compilers) course at VSB-TUO.
+This is the semestral project of the PLC (Programming languages and compilers) course at VSB-TUO.
 
 # Project specification
 Project will be composed from following steps:
