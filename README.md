@@ -29,7 +29,7 @@ Following statements are defined:
 - `;` - empty command.
 - `type variable, variable, ... ;` - declaration of variables, all these variables have the same type type. It can be one of: `int`, `float`, `bool`, `string`.
 - `expression ;` - it evaluates given expression, the resulting value of the expression is ignored. Note, there can be some side effects like an assignment to a variable.
-`read variable, variable, ... ;` - it reads values ​​from standard input and then these values are assigned to corresponding variables. Each of these input values is on a separate line and it is verified, that have an appropriate type.
+- `read variable, variable, ... ;` - it reads values ​​from standard input and then these values are assigned to corresponding variables. Each of these input values is on a separate line and it is verified, that have an appropriate type.
 - `write expression, expression, ... ;` - it writes values of expressions to standard output. The `"\n"` character is written after the value of the last expression.
 - `{ statement statement ... }` - block of statements.
 - `if (condition) statement [else statement] `- conditional statement - condition is an expression with a type: `bool`. The else part of the statement is optional.
