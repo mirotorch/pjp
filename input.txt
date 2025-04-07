@@ -1,6 +1,0 @@
-char x;
-x = '\n';
-string s;
-s = "ahoj svete";
-int k;
-k = x;
