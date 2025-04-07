@@ -15,7 +15,13 @@ stat: ';'                                   // empty statement
 
 cond: expr ('==' | '!=' | '<' | '>' | '<=' | '>=') expr ; // condition expression
 
-expr: expr ('+'|'-'|'*'|'/'|'%') expr  
+expr: expr ('+'|'-'|'*'|'/'|'%') expr   // arithmetic expression
+    | '-' expr                          // unary minus
+    | expr ('=='|'!='|'<'|'>') expr     // comparison expression
+    | expr ('&&'|'||') expr             // logical expression
+    | '!' expr                          // unary logical expression
+    | '(' expr ')'                      // parenthesized expression
+    | ID '=' expr                       // assignment
     ;
 
 
