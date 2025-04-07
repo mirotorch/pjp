@@ -1,38 +1,88 @@
 grammar ProjectGrammar;
 
 /** The start rule; begin parsing here. */
-prog: stat+;
+program: stat+ ;
 
-stat: ';'                                   // empty statement
-    | TYPE ID (',' ID)*                     // variable declaration
-    | expr ';'                              // evaluate expression
-    | 'read' expr (',' expr)* '\r\n'        // read statement
-    | 'write' expr (',' expr)* '\r\n'       // write statement
-    | '{' stat+ '}'                         // block statement
-    | 'if' '(' cond ')' stat ('else' stat)? // if-else statement
-    | 'while' '(' cond ')' stat             // while loop
+stat
+    : ';'                                               # emptyStatement
+    | primitiveType IDENTIFIER (',' IDENTIFIER)* ';'    # declaration
+    | 'read' expr (',' expr)* ';'                       # read
+    | 'write' expr (',' expr)* ';'                      # write
+    | 'if' '(' cond ')' stat ('else' stat)?             # ifElse
+    | 'while' '(' cond ')' stat                         # whileLoop
+    | '{' stat+ '}'                                     # block
     ;
 
-cond: expr ('==' | '!=' | '<' | '>' | '<=' | '>=') expr ; // condition expression
-
-expr: expr ('+'|'-'|'*'|'/'|'%') expr   // arithmetic expression
-    | '-' expr                          // unary minus
-    | expr ('=='|'!='|'<'|'>') expr     // comparison expression
-    | expr ('&&'|'||') expr             // logical expression
-    | '!' expr                          // unary logical expression
-    | '(' expr ')'                      // parenthesized expression
-    | ID '=' expr                       // assignment
+cond
+    : cond OR cond1       # orExpr
+    | cond1               # passCond
     ;
 
+cond1
+    : cond1 AND cond2     # andExpr
+    | cond2               # passCond1
+    ;
 
-TYPE: 'int' | 'float' | 'bool' | 'string' ; // match types
-ID: [a-zA-Z_][a-zA-Z0-9_]* ;                // match variable names
+cond2
+    : NOT cond2           # notExpr
+    | '(' cond ')'        # parensCond
+    | expr relOp expr     # compare
+    ;
 
+relOp : EQ | NEQ | LT | GT | LTE | GTE ;
+
+expr: expr op=(MUL|DIV) expr                # mulDiv
+    | expr op=(ADD|SUB) expr                # addSub
+    | op=SUB expr                           # unaryMinus
+    | INT                                   # int
+    | IDENTIFIER                            # id
+    | FLOAT                                 # float
+    | BOOL                                  # boolean
+    | CHAR                                  # char
+    | STRING                                # string
+    | '(' expr ')'                          # parens
+    | <assoc=right> IDENTIFIER '=' expr     # assignment
+    ;
+
+primitiveType
+    : type=INT_KEYWORD
+    | type=FLOAT_KEYWORD
+    | type=BOOL_KEYWORD
+    | type=CHAR_KEYWORD
+    | type=STRING_KEYWORD
+    ;
+
+// keywords
+INT_KEYWORD : 'int';
+FLOAT_KEYWORD : 'float';
+BOOL_KEYWORD: 'bool';
+CHAR_KEYWORD: 'char';
+STRING_KEYWORD: 'string';
+// separators
+SEMI:               ';';
+COMMA:              ',';
+// arithmetic operators
+MUL : '*' ; 
+DIV : '/' ;
+ADD : '+' ;
+SUB : '-' ;
+// comparison operators
+EQ : '==' ;
+NEQ : '!=' ;
+LT : '<' ;
+GT : '>' ;
+LTE: '<=' ;
+GTE: '>=' ;
+// logical operators
+AND : '&&' ;
+OR : '||' ;
+NOT : '!' ;
 // literals
-STRING : "[a-zA-Z]+" ;      // match strings TODO
-INT : [0-9]+ ;              // match integers
-FLOAT: [0-9]+ '.' [0-9]+ ;  // match floats
-BOOLEAN: 'true' | 'false' ; // match booleans
+BOOL: 'true' | 'false';
+CHAR: '\'' ( ~['\\\r\n] | '\\' . ) '\''  ;
+STRING: '"' ( ~["\\\r\n] | '\\' . )* '"'  ;
+FLOAT : [0-9]+'.'[0-9]+ ;
+INT : [0-9]+ ; 
 
-// skip newlines, whitespaces, tabs and comments
-DELIMITER: [ \r\n]+ | [' ']+ | [\t]+ | '//' ~[\r\n]* -> skip ; 
+IDENTIFIER : [a-zA-Z] [a-zA-Z0-9]* ;
+WS : [ \t\r\n]+ -> skip ; // toss out whitespace, tab, and newline
