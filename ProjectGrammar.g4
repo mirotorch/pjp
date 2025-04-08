@@ -4,44 +4,32 @@ grammar ProjectGrammar;
 program: stat+ ;
 
 stat
-    : ';'                                               # emptyStatement
-    | primitiveType IDENTIFIER (',' IDENTIFIER)* ';'    # declaration
+    : primitiveType IDENTIFIER (',' IDENTIFIER)* ';'    # declaration
     | 'read' expr (',' expr)* ';'                       # read
     | 'write' expr (',' expr)* ';'                      # write
-    | 'if' '(' cond ')' stat ('else' stat)?             # ifElse
-    | 'while' '(' cond ')' stat                         # whileLoop
+    | 'if' '(' expr ')' stat ('else' stat)?             # ifElse
+    | 'while' '(' expr ')' stat                         # whileLoop
     | '{' stat+ '}'                                     # block
+    | expr ';'                                          # simpleExpr
+    | ';'                                               # emptyStatement
     ;
 
-cond
-    : cond OR cond1       # orExpr
-    | cond1               # passCond
-    ;
-
-cond1
-    : cond1 AND cond2     # andExpr
-    | cond2               # passCond1
-    ;
-
-cond2
-    : NOT cond2           # notExpr
-    | '(' cond ')'        # parensCond
-    | expr relOp expr     # compare
-    ;
-
-relOp : EQ | NEQ | LT | GT | LTE | GTE ;
-
-expr: expr op=(MUL|DIV) expr                # mulDiv
-    | expr op=(ADD|SUB) expr                # addSub
-    | op=SUB expr                           # unaryMinus
-    | INT                                   # int
-    | IDENTIFIER                            # id
-    | FLOAT                                 # float
-    | BOOL                                  # boolean
-    | CHAR                                  # char
-    | STRING                                # string
-    | '(' expr ')'                          # parens
-    | <assoc=right> IDENTIFIER '=' expr     # assignment
+expr
+    : <assoc=right> IDENTIFIER '=' expr      # assignment
+    | expr '||' expr                         # orExpr
+    | expr '&&' expr                         # andExpr
+    | '!' expr                               # notExpr
+    | expr ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) expr # comparison
+    | expr ( '*' | '/' ) expr                # mulDiv
+    | expr ( '+' | '-' ) expr                # addSub
+    | '-' expr                               # unaryMinus
+    | '(' expr ')'                           # parens
+    | INT                                    # int
+    | FLOAT                                  # float
+    | BOOL                                   # bool
+    | CHAR                                   # char
+    | STRING                                 # string
+    | IDENTIFIER                             # id
     ;
 
 primitiveType
