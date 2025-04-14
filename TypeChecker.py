@@ -3,6 +3,7 @@ from antlr_gen.ProjectGrammarVisitor import ProjectGrammarVisitor
 class TypeChecker(ProjectGrammarVisitor):
     def __init__(self):
         self.symbols = {} 
+        self.numeric_types = ['int', 'float']
 
     def visitProgram(self, ctx):
         for stat in ctx.stat():
@@ -34,13 +35,31 @@ class TypeChecker(ProjectGrammarVisitor):
         if not (var_type == expr_type or var_type == 'float' and expr_type == 'int'):
             print(f"Type error: cannot assign {expr_type} to {var_type}")
         return var_type
-    
+        
+    def visitFileWrite(self, ctx):
+        file_id = ctx.IDENTIFIER().getText()
+        if file_id not in self.symbols:
+            print(f"Error: file '{file_id}' not declared")
+            return None
+        if self.symbols[file_id] != 'FILE':
+            print(f"Type error: '{file_id}' must be a file")
+
     def visitRead(self, ctx):
-        # TODO
+        expr = ctx.expr()
+        try:
+            for e in expr:
+                self.visit(e)
+        except:
+            self.visit(expr)
         return None
     
     def visitWrite(self, ctx):
-        # TODO
+        expr = ctx.expr()
+        try:
+            for e in expr:
+                self.visit(e)
+        except:
+            self.visit(expr)
         return None
     
     def visitIfElse(self, ctx):
@@ -82,6 +101,9 @@ class TypeChecker(ProjectGrammarVisitor):
 
     def visitString(self, ctx):
         return 'string'
+    
+    def visitFile(self, ctx):
+        return 'FILE'
 
     def visitParens(self, ctx):
         return self.visit(ctx.expr())
@@ -115,15 +137,55 @@ class TypeChecker(ProjectGrammarVisitor):
     def visitAddSub(self, ctx):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
+        if left not in self.numeric_types:
+            operation = ctx.ADD() if ctx.SUB() is None else ctx.SUB
+            print(f"Type error: cannot apply '{operation}' to {left}")
+            return None
+        if right not in self.numeric_types:
+            operation = ctx.ADD() if ctx.SUB() is None else ctx.SUB
+            print(f"Type error: cannot apply '{operation}' to {right}")
+            return None
         return self.promoteType(left, right)
 
     def visitMulDiv(self, ctx):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
+        if left not in self.numeric_types:
+            operation = ctx.DIV() if ctx.MUL() is None else ctx.MUL
+            print(f"Type error: cannot apply '{operation}' to {left}")
+            return None
+        if right not in self.numeric_types:
+            operation = ctx.DIV if ctx.MUL() is None else ctx.MUL
+            print(f"Type error: cannot apply '{operation}' to {right}")
+            return None
         return self.promoteType(left, right)
     
+    def visitModExpr(self, ctx):
+        left = self.visit(ctx.expr(0))
+        right = self.visit(ctx.expr(1))
+        if left is not 'int':
+            print(f"Type error: cannot apply '{ctx.MOD().getText()}' to {left}")
+            return None
+        if right is not 'int':
+            print(f"Type error: cannot apply '{ctx.MOD().getText()}' to {right}")
+            return None
+        
+    def visitConcatExpr(self, ctx):
+        left = self.visit(ctx.expr(0))
+        right = self.visit(ctx.expr(1))
+        if left != 'string':
+            print(f"Type error: cannot apply concatenation to {left}")
+            return None
+        if right != 'string':
+            print(f"Type error: cannot apply concatenation to {right}")
+            return None
+        return 'string'
+    
     def visitUnaryMinus(self, ctx):
-        return self.visit(ctx.expr())
+        type = self.visit(ctx.expr())
+        if type not in self.numeric_types:
+            print(f"Type error: cannot apply unary minus to {type}")
+        return type
     
     def visitComparison(self, ctx):
         left = self.visit(ctx.expr(0))

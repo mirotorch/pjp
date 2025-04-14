@@ -7,8 +7,9 @@ stat
     : primitiveType IDENTIFIER (',' IDENTIFIER)* ';'    # declaration
     | 'read' expr (',' expr)* ';'                       # read
     | 'write' expr (',' expr)* ';'                      # write
+    | 'fwrite' IDENTIFIER (',' expr)* ';'               # fileWrite
     | 'if' '(' expr ')' stat ('else' stat)?             # ifElse
-    | 'while' '(' expr ')' stat                         # whileLoop
+    | 'while' '(' expr ')' stat                         # whileLoops
     | '{' stat+ '}'                                     # block
     | expr ';'                                          # simpleExpr
     | ';'                                               # emptyStatement
@@ -22,7 +23,9 @@ expr
     | expr ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) expr # comparison
     | expr ( '*' | '/' ) expr                # mulDiv
     | expr ( '+' | '-' ) expr                # addSub
+    | expr ('%') expr                        # modExpr
     | '-' expr                               # unaryMinus
+    | expr '.' expr                          # concatExpr
     | '(' expr ')'                           # parens
     | INT                                    # int
     | FLOAT                                  # float
@@ -38,6 +41,7 @@ primitiveType
     | type=BOOL_KEYWORD
     | type=CHAR_KEYWORD
     | type=STRING_KEYWORD
+    | type=FILE_KEYWORD
     ;
 
 // keywords
@@ -46,6 +50,7 @@ FLOAT_KEYWORD : 'float';
 BOOL_KEYWORD: 'bool';
 CHAR_KEYWORD: 'char';
 STRING_KEYWORD: 'string';
+FILE_KEYWORD: 'FILE';
 // separators
 SEMI:               ';';
 COMMA:              ',';
@@ -54,6 +59,7 @@ MUL : '*' ;
 DIV : '/' ;
 ADD : '+' ;
 SUB : '-' ;
+MOD: '%' ;
 // comparison operators
 EQ : '==' ;
 NEQ : '!=' ;
@@ -65,6 +71,8 @@ GTE: '>=' ;
 AND : '&&' ;
 OR : '||' ;
 NOT : '!' ;
+// other operators
+CONCAT: '.' ;
 // literals
 BOOL: 'true' | 'false';
 CHAR: '\'' ( ~['\\\r\n] | '\\' . ) '\''  ;

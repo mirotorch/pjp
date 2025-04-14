@@ -29,13 +29,18 @@ class ProjectGrammarVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by ProjectGrammarParser#fileWrite.
+    def visitFileWrite(self, ctx:ProjectGrammarParser.FileWriteContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by ProjectGrammarParser#ifElse.
     def visitIfElse(self, ctx:ProjectGrammarParser.IfElseContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by ProjectGrammarParser#whileLoop.
-    def visitWhileLoop(self, ctx:ProjectGrammarParser.WhileLoopContext):
+    # Visit a parse tree produced by ProjectGrammarParser#whileLoops.
+    def visitWhileLoops(self, ctx:ProjectGrammarParser.WhileLoopsContext):
         return self.visitChildren(ctx)
 
 
@@ -74,6 +79,11 @@ class ProjectGrammarVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by ProjectGrammarParser#modExpr.
+    def visitModExpr(self, ctx:ProjectGrammarParser.ModExprContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by ProjectGrammarParser#assignment.
     def visitAssignment(self, ctx:ProjectGrammarParser.AssignmentContext):
         return self.visitChildren(ctx)
@@ -101,6 +111,11 @@ class ProjectGrammarVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by ProjectGrammarParser#mulDiv.
     def visitMulDiv(self, ctx:ProjectGrammarParser.MulDivContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by ProjectGrammarParser#concatExpr.
+    def visitConcatExpr(self, ctx:ProjectGrammarParser.ConcatExprContext):
         return self.visitChildren(ctx)
 
 

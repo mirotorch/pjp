@@ -44,6 +44,15 @@ class ProjectGrammarListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by ProjectGrammarParser#fileWrite.
+    def enterFileWrite(self, ctx:ProjectGrammarParser.FileWriteContext):
+        pass
+
+    # Exit a parse tree produced by ProjectGrammarParser#fileWrite.
+    def exitFileWrite(self, ctx:ProjectGrammarParser.FileWriteContext):
+        pass
+
+
     # Enter a parse tree produced by ProjectGrammarParser#ifElse.
     def enterIfElse(self, ctx:ProjectGrammarParser.IfElseContext):
         pass
@@ -53,12 +62,12 @@ class ProjectGrammarListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by ProjectGrammarParser#whileLoop.
-    def enterWhileLoop(self, ctx:ProjectGrammarParser.WhileLoopContext):
+    # Enter a parse tree produced by ProjectGrammarParser#whileLoops.
+    def enterWhileLoops(self, ctx:ProjectGrammarParser.WhileLoopsContext):
         pass
 
-    # Exit a parse tree produced by ProjectGrammarParser#whileLoop.
-    def exitWhileLoop(self, ctx:ProjectGrammarParser.WhileLoopContext):
+    # Exit a parse tree produced by ProjectGrammarParser#whileLoops.
+    def exitWhileLoops(self, ctx:ProjectGrammarParser.WhileLoopsContext):
         pass
 
 
@@ -125,6 +134,15 @@ class ProjectGrammarListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by ProjectGrammarParser#modExpr.
+    def enterModExpr(self, ctx:ProjectGrammarParser.ModExprContext):
+        pass
+
+    # Exit a parse tree produced by ProjectGrammarParser#modExpr.
+    def exitModExpr(self, ctx:ProjectGrammarParser.ModExprContext):
+        pass
+
+
     # Enter a parse tree produced by ProjectGrammarParser#assignment.
     def enterAssignment(self, ctx:ProjectGrammarParser.AssignmentContext):
         pass
@@ -176,6 +194,15 @@ class ProjectGrammarListener(ParseTreeListener):
 
     # Exit a parse tree produced by ProjectGrammarParser#mulDiv.
     def exitMulDiv(self, ctx:ProjectGrammarParser.MulDivContext):
+        pass
+
+
+    # Enter a parse tree produced by ProjectGrammarParser#concatExpr.
+    def enterConcatExpr(self, ctx:ProjectGrammarParser.ConcatExprContext):
+        pass
+
+    # Exit a parse tree produced by ProjectGrammarParser#concatExpr.
+    def exitConcatExpr(self, ctx:ProjectGrammarParser.ConcatExprContext):
         pass
 
 

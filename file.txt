@@ -1,0 +1,6 @@
+FILE a, b;
+int x;
+fwrite a, 1, 2;
+fwrite b, 1, 2;
+fwrite x, 1, 2;
+a + 1;
