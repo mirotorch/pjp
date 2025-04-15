@@ -1,3 +1,6 @@
+# TODO
+add fopen instruction to save actual filestream instead of filename
+
 This is the semestral project of the PLC (Programming languages and compilers) course at VSB-TUO.
 
 # Project specification
