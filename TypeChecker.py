@@ -5,6 +5,9 @@ class TypeChecker(ProjectGrammarVisitor):
         self.symbols = {} 
         self.numeric_types = ['int', 'float']
 
+    def get_types(self):
+        return self.symbols
+
     def visitProgram(self, ctx):
         for stat in ctx.stat():
             self.visit(stat)
@@ -43,6 +46,16 @@ class TypeChecker(ProjectGrammarVisitor):
             return None
         if self.symbols[file_id] != 'FILE':
             print(f"Type error: '{file_id}' must be a file")
+
+    def visitFileOpen(self, ctx):
+        file_id = ctx.IDENTIFIER().getText()
+        if file_id not in self.symbols:
+            print(f"Error: file '{file_id}' not declared")
+            return None
+        if self.symbols[file_id] != 'FILE':
+            print(f"Type error: '{file_id}' must be a file")
+        if self.visit(ctx.expr()) != 'string':
+            print(f"Type error: filename must be a string")
 
     def visitRead(self, ctx):
         expr = ctx.expr()

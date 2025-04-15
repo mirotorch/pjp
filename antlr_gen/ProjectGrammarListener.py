@@ -44,6 +44,15 @@ class ProjectGrammarListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by ProjectGrammarParser#fileOpen.
+    def enterFileOpen(self, ctx:ProjectGrammarParser.FileOpenContext):
+        pass
+
+    # Exit a parse tree produced by ProjectGrammarParser#fileOpen.
+    def exitFileOpen(self, ctx:ProjectGrammarParser.FileOpenContext):
+        pass
+
+
     # Enter a parse tree produced by ProjectGrammarParser#fileWrite.
     def enterFileWrite(self, ctx:ProjectGrammarParser.FileWriteContext):
         pass
@@ -62,12 +71,12 @@ class ProjectGrammarListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by ProjectGrammarParser#whileLoops.
-    def enterWhileLoops(self, ctx:ProjectGrammarParser.WhileLoopsContext):
+    # Enter a parse tree produced by ProjectGrammarParser#whileLoop.
+    def enterWhileLoop(self, ctx:ProjectGrammarParser.WhileLoopContext):
         pass
 
-    # Exit a parse tree produced by ProjectGrammarParser#whileLoops.
-    def exitWhileLoops(self, ctx:ProjectGrammarParser.WhileLoopsContext):
+    # Exit a parse tree produced by ProjectGrammarParser#whileLoop.
+    def exitWhileLoop(self, ctx:ProjectGrammarParser.WhileLoopContext):
         pass
 
 

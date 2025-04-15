@@ -4,3 +4,6 @@
 *.env
 *.pyc
 input.txt
+instructions.txt
+run.txt
+test.txt

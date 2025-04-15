@@ -7,9 +7,10 @@ stat
     : primitiveType IDENTIFIER (',' IDENTIFIER)* ';'    # declaration
     | 'read' expr (',' expr)* ';'                       # read
     | 'write' expr (',' expr)* ';'                      # write
+    | 'fopen' IDENTIFIER expr ';'                       # fileOpen
     | 'fwrite' IDENTIFIER (',' expr)* ';'               # fileWrite
     | 'if' '(' expr ')' stat ('else' stat)?             # ifElse
-    | 'while' '(' expr ')' stat                         # whileLoops
+    | 'while' '(' expr ')' stat                         # whileLoop
     | '{' stat+ '}'                                     # block
     | expr ';'                                          # simpleExpr
     | ';'                                               # emptyStatement
@@ -82,3 +83,4 @@ INT : [0-9]+ ;
 
 IDENTIFIER : [a-zA-Z] [a-zA-Z0-9]* ;
 WS : [ \t\r\n]+ -> skip ; // toss out whitespace, tab, and newline
+LINE_COMMENT : '//' ~[\r\n]* -> skip ;

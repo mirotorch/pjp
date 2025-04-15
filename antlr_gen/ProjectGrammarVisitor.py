@@ -29,6 +29,11 @@ class ProjectGrammarVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by ProjectGrammarParser#fileOpen.
+    def visitFileOpen(self, ctx:ProjectGrammarParser.FileOpenContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by ProjectGrammarParser#fileWrite.
     def visitFileWrite(self, ctx:ProjectGrammarParser.FileWriteContext):
         return self.visitChildren(ctx)
@@ -39,8 +44,8 @@ class ProjectGrammarVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by ProjectGrammarParser#whileLoops.
-    def visitWhileLoops(self, ctx:ProjectGrammarParser.WhileLoopsContext):
+    # Visit a parse tree produced by ProjectGrammarParser#whileLoop.
+    def visitWhileLoop(self, ctx:ProjectGrammarParser.WhileLoopContext):
         return self.visitChildren(ctx)
 
 
